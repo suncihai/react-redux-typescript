@@ -1,11 +1,18 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { ITradeBuyItem } from '../reducers';
-import { green, bitGray, lightGray, darkGray, tinyGray } from '../theme';
+import { ITradeItem } from '../reducers';
+import {
+  green,
+  bitBlue,
+  bitGray,
+  lightGray,
+  darkGray,
+  tinyGray
+} from '../theme';
 import styled from 'styled-components';
 import { Text } from '../common/Text';
-import { Avatar } from '../common/Avater';
+import { Avatar } from '../common/Avatar';
 import _ from 'lodash';
 import avatar_buyer from '../imgs/avatar_buyer.png';
 import avatar_seller from '../imgs/avatar_seller.png';
@@ -17,7 +24,7 @@ const Wrapper = styled.div`
   cursor: pointer;
   position: relative;
   &.isActive {
-    background: ${bitGray};
+    background: ${bitBlue};
   }
 `;
 
@@ -67,7 +74,10 @@ const TradeItem = ({ item, onClick }: OwnProps & DispatchProps) => (
           <Text bold mb="2px">
             {item.paymentType}
           </Text>
-          <Text type="sub-text">{`${item.usd} USD (${item.btc} BTC)`}</Text>
+          <Text
+            type="sub-text"
+            nowrap
+          >{`${item.usd} USD (${item.btc} BTC)`}</Text>
         </TextBox>
       </LeftPart>
       <RightPart>
@@ -75,7 +85,7 @@ const TradeItem = ({ item, onClick }: OwnProps & DispatchProps) => (
           src={item.avatar === 'buyer' ? avatar_buyer : avatar_seller}
           mb="5px"
         />
-        <Text type={item.isPaid ? 'green-text' : 'sub-text'} bold>
+        <Text type={item.isPaid ? 'green-text' : 'sub-text'} bold nowrap>
           {item.isPaid ? 'PAID' : 'NOT PAID'}
         </Text>
       </RightPart>
@@ -85,12 +95,12 @@ const TradeItem = ({ item, onClick }: OwnProps & DispatchProps) => (
 
 interface OwnProps {
   onClick: () => void;
-  item: ITradeBuyItem;
+  item: ITradeItem;
 }
 
 interface DispatchProps {}
 
-const mapDispatchToProps = (dispatch: Dispatch<ITradeBuyItem>) => ({});
+const mapDispatchToProps = (dispatch: Dispatch<ITradeItem>) => ({});
 
 export default connect<{}, DispatchProps, OwnProps>(mapDispatchToProps)(
   TradeItem

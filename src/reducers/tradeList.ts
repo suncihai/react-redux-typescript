@@ -1,9 +1,12 @@
 import { tradeList } from '../initialData';
-import { ITradeBuyItem } from '.';
+import { ITradeItem } from '.';
 
-const tradeListReducer = (state = tradeList, action): Array<ITradeBuyItem> => {
+const tradeListReducer = (state = tradeList, action): Array<ITradeItem> => {
   switch (action.type) {
     case 'SELECT_TRADE_ITEM':
+      return [...action.payload_list];
+      break;
+    case 'DELETE_TRADE_ITEM':
       return [...action.payload_list];
       break;
   }

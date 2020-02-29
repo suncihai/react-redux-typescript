@@ -9,6 +9,8 @@ interface IText {
   inline?: boolean;
   bold?: boolean;
   uppercase?: boolean;
+  nowrap?: boolean;
+  maxwidth?: string;
   mr?: string;
   mb?: string;
 }
@@ -17,12 +19,15 @@ const Wrapper = styled.p`
   margin: 0;
   margin-right: ${props => props.mr};
   margin-bottom: ${props => props.mb};
-  white-space: nowrap;
+  max-width: ${props => props.maxwidth};
   &.bold {
     font-weight: bold;
   }
   &.inline {
     display: inline-block;
+  }
+  &.nowrap {
+    white-space: nowrap;
   }
   &.uppercase {
     text-transform: uppercase;
@@ -47,7 +52,7 @@ const Wrapper = styled.p`
     font-size: 12px;
     color: ${red};
   }
-  &.btn-text {
+  &.white-text {
     font-size: 14px;
     color: ${bitGray};
   }
@@ -59,6 +64,8 @@ export const Text = ({
   inline,
   bold = false,
   uppercase = false,
+  nowrap = false,
+  maxwidth = 'none',
   mr,
   mb
 }: IText) => {
@@ -66,11 +73,13 @@ export const Text = ({
     <Wrapper
       mb={mb}
       mr={mr}
+      maxwidth={maxwidth}
       className={_.compact([
         type,
         bold && 'bold',
         inline && 'inline',
-        uppercase && 'uppercase'
+        uppercase && 'uppercase',
+        nowrap && 'nowrap'
       ]).join(' ')}
     >
       {children}

@@ -1,13 +1,17 @@
 import { combineReducers } from 'redux';
 import { RouterState } from 'connected-react-router';
 import counterReducer from './counter';
+import isBuyerReducer from './isBuyer';
 import tradeListReducer from './tradeList';
 import tradeItemReducer from './tradeItem';
+import tradeChatReducer from './tradeChat';
 
 const rootReducer = combineReducers({
   count: counterReducer,
+  isBuyer: isBuyerReducer,
   tradeList: tradeListReducer,
-  tradeItem: tradeItemReducer
+  tradeItem: tradeItemReducer,
+  tradeChat: tradeChatReducer
 });
 
 export interface State {
@@ -16,10 +20,10 @@ export interface State {
 }
 
 export interface ITradeList {
-  tradeList: Array<ITradeBuyItem>;
+  tradeList: Array<ITradeItem>;
 }
 
-export interface ITradeBuyItem {
+export interface ITradeItem {
   tradeId: string;
   buyerName: string;
   paymentType: string;
@@ -30,9 +34,21 @@ export interface ITradeBuyItem {
   negRepu: number;
   trades: number;
   avatar: string;
+  isBuy: boolean;
   isPaid: boolean;
   isRead: boolean;
   isActive: boolean;
+}
+
+export interface IChat {
+  chatList: Map<string, Array<IChatItem>>;
+}
+
+//since it is hard code, avatar depend on if user is buyer or not instead of url
+export interface IChatItem {
+  text: string;
+  timestamp: number;
+  isUser: boolean;
 }
 
 export default rootReducer;

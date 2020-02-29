@@ -1,6 +1,7 @@
 //blue
-export const darkBlue : string = '#30364c';
+export const darkBlue: string = '#30364c';
 export const lightBlue: string = '#5c7394';
+export const bitBlue: string = '#f5f7fa';
 
 export const green: string = '#54d38b';
 export const red: string = '#e04658';

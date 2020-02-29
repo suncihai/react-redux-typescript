@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { ITradeList, ITradeBuyItem } from '../reducers';
+import { ITradeList, ITradeItem } from '../reducers';
 import { Text } from '../common/Text';
 import { Button } from '../common/Button';
 import { InfoCell } from '../common/InfoCell';
-import { Avatar } from '../common/Avater';
+import { Avatar } from '../common/Avatar';
 import styled from 'styled-components';
 import { lightGray, bitGray } from '../theme';
 import { selectTradeItem } from '../actions';
@@ -14,9 +14,10 @@ import avatar_seller from '../imgs/avatar_seller.png';
 
 const Wrapper = styled.div`
   width: 300px;
-  box-shadow: 5px 0 5px -5px ${lightGray};
+  box-shadow: -5px 0 5px -5px ${lightGray};
   padding: 30px;
   text-align: center;
+  z-index: 1;
 `;
 
 const Row = styled.div`
@@ -104,7 +105,7 @@ const TradeInfo = ({ tradeItem }: StateProps & DispatchProps) => (
 );
 
 interface StateProps {
-  tradeItem: ITradeBuyItem;
+  tradeItem: ITradeItem;
 }
 
 interface DispatchProps {}

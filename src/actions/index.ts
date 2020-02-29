@@ -1,11 +1,11 @@
-import { ITradeBuyItem } from '../reducers';
+import { ITradeItem } from '../reducers';
 
 export const selectTradeItem = (
   tradeId: string,
-  tradeList: Array<ITradeBuyItem>
+  tradeList: Array<ITradeItem>
 ): {
   type: string;
-  payload_list: Array<ITradeBuyItem>;
+  payload_list: Array<ITradeItem>;
   payload_item: object;
 } => {
   let tradeItem = {};
@@ -23,5 +23,29 @@ export const selectTradeItem = (
     type: 'SELECT_TRADE_ITEM',
     payload_list: tradeList,
     payload_item: tradeItem
+  };
+};
+
+export const deleteTradeItem = (
+  tradeId: string,
+  tradeList: Array<ITradeItem>
+): {
+  type: string;
+  payload_list: Array<ITradeItem>;
+  payload_item: object;
+} => {
+  let target = 0;
+  let newTradeItem = {};
+  tradeList.forEach((ele, index) => {
+    if (ele.tradeId === tradeId) {
+      target = index;
+    }
+  });
+  tradeList.splice(target, 1);
+  newTradeItem = Object.assign({}, tradeList[0]);
+  return {
+    type: 'DELETE_TRADE_ITEM',
+    payload_list: tradeList,
+    payload_item: newTradeItem
   };
 };

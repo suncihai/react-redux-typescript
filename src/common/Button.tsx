@@ -47,7 +47,7 @@ export const Button = ({
       className={_.compact([type, disabled && 'disabled']).join(' ')}
       onClick={onClick}
     >
-      <Text type="btn-text">{children}</Text>
+      <Text type="white-text">{children}</Text>
     </Wrapper>
   );
 };
