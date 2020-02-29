@@ -10,37 +10,51 @@ import avatar_seller from '../imgs/avatar_seller.png';
 interface IChatCell {
   children: any;
   isUser: boolean;
+  time: string;
 }
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: ${props => (props.isUser ? 'flex-end' : 'flex-start')};
-  padding: 20px;
+  padding: 15px;
 `;
 
 const Flex = styled.div`
   display: flex;
 `;
 
+const Align = styled.div`
+  text-align: ${props => (props.isUser ? 'right' : 'left')};
+`;
+
 const TextBg = styled.div`
   padding: 12px;
   border-radius: 4px;
   background: ${props => (props.isUser ? lightBlue : 'white')};
-  order: ${props => (props.isUser ? -1 : 1)};
-  margin-left: ${props => (props.isUser ? 0 : '15px')};
-  margin-right: ${props => (props.isUser ? '15px' : 0)};
+  margin-bottom: 5px;
 `;
 
-export const ChatCell = ({ children, isUser }: IChatCell) => {
+const TextGroup = styled.div`
+  margin-left: ${props => (props.isUser ? 0 : '15px')};
+  margin-right: ${props => (props.isUser ? '15px' : 0)};
+  order: ${props => (props.isUser ? -1 : 1)};
+`;
+
+export const ChatCell = ({ children, isUser, time }: IChatCell) => {
   return (
     <Wrapper isUser={isUser}>
       <Flex>
-        <TextBg isUser={isUser}>
-          <Text type={isUser ? 'white-text' : 'text'} maxwidth="400px">
-            {children}
-          </Text>
-        </TextBg>
+        <TextGroup isUser={isUser}>
+          <TextBg isUser={isUser}>
+            <Text type={isUser ? 'white-text' : 'text'} maxwidth="400px">
+              {children}
+            </Text>
+          </TextBg>
+          <Align isUser={isUser}>
+            <Text type="sub-text">{time}</Text>
+          </Align>
+        </TextGroup>
         <Avatar src={isUser ? avatar_user : avatar_buyer} />
       </Flex>
     </Wrapper>

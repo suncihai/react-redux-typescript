@@ -1,18 +1,21 @@
-import React, { PropTypes } from 'react';
+import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faMonument } from '@fortawesome/free-solid-svg-icons';
 import { Text } from '../common/Text';
 import { ChatCell } from '../common/ChatCell';
+import { Input } from '../common/Input';
 import { ITradeList, ITradeItem, IChatItem } from '../reducers';
 import TradeItem from './TradeItem';
 import styled from 'styled-components';
 import { bitBlue, lightGray, tinyGray } from '../theme';
 import { deleteTradeItem } from '../actions';
+import moment from 'moment';
 
 const Wrapper = styled.div`
   display: flex;
+  position: relative;
   padding: 30px;
   flex-direction: column;
   flex-grow: 1;
@@ -45,41 +48,65 @@ const Icon = styled.div`
   }
 `;
 
-const TradeChat = (props: StateProps & DispatchProps) => (
-  <Wrapper>
-    <RowTitle>
-      <Icon
-        onClick={() =>
-          props.deleteTradeItem(props.tradeItem.tradeId, props.tradeList)
-        }
-      >
-        <FontAwesomeIcon icon={faTrashAlt} color="white" />
-      </Icon>
-      <Title>
-        <Text bold>{props.tradeItem.paymentType}</Text>
-        <Text inline mr="5px">
-          {props.tradeItem.buyerName}
-        </Text>
-        <Text type="green-text" inline bold mr="2px">
-          +{props.tradeItem.posRepu}
-        </Text>
-        <Text bold inline mr="2px">
-          /
-        </Text>
-        <Text type="red-text" inline bold>
-          -{props.tradeItem.negRepu}
-        </Text>
-      </Title>
-    </RowTitle>
-    {props.tradeChat.map((ele, index) => {
-      return (
-        <ChatCell key={index} isUser={ele.isUser}>
-          {ele.text}
-        </ChatCell>
-      );
-    })}
-  </Wrapper>
-);
+const SendMsgBox = styled.div`
+  position: absolute;
+  width: calc(100% - 60px);
+  bottom: 60px;
+`;
+
+const TradeChat = (props: StateProps & DispatchProps) => {
+  return (
+    <Wrapper>
+      <RowTitle>
+        <Icon
+          onClick={() =>
+            props.deleteTradeItem(props.tradeItem.tradeId, props.tradeList)
+          }
+        >
+          <FontAwesomeIcon icon={faTrashAlt} color="white" />
+        </Icon>
+        <Title>
+          <Text bold>{props.tradeItem.paymentType}</Text>
+          <Text inline mr="5px">
+            {props.tradeItem.buyerName}
+          </Text>
+          <Text type="green-text" inline bold mr="2px">
+            +{props.tradeItem.posRepu}
+          </Text>
+          <Text bold inline mr="2px">
+            /
+          </Text>
+          <Text type="red-text" inline bold>
+            -{props.tradeItem.negRepu}
+          </Text>
+        </Title>
+      </RowTitle>
+      {props.tradeChat.map((ele, index) => {
+        return (
+          <ChatCell
+            key={index}
+            isUser={ele.isUser}
+            time={moment(ele.timestamp).format('hh:mm:ss a')}
+          >
+            {ele.text}
+          </ChatCell>
+        );
+      })}
+      <SendMsgBox>
+        <Input
+          append
+          text="SEND"
+          onClick={() => {
+            console.log('dddd');
+          }}
+          onChange={() => {
+            console.log('333');
+          }}
+        />
+      </SendMsgBox>
+    </Wrapper>
+  );
+};
 
 interface StateProps {
   tradeItem: ITradeItem;
