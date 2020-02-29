@@ -64,10 +64,10 @@ const TradeItem = ({ item, onClick }: OwnProps & DispatchProps) => (
         />
         <TextBox>
           <Text type="sub-text" mb="4px">{`${item.buyerName} is buying`}</Text>
-          <Text weight="bold" mb="2px">
+          <Text bold mb="2px">
             {item.paymentType}
           </Text>
-          <Text type="sub-text">{item.value}</Text>
+          <Text type="sub-text">{`${item.usd} USD (${item.btc} BTC)`}</Text>
         </TextBox>
       </LeftPart>
       <RightPart>
@@ -75,7 +75,7 @@ const TradeItem = ({ item, onClick }: OwnProps & DispatchProps) => (
           src={item.avatar === 'buyer' ? avatar_buyer : avatar_seller}
           mb="5px"
         />
-        <Text type={item.isPaid ? 'green-text' : 'sub-text'} weight="bold">
+        <Text type={item.isPaid ? 'green-text' : 'sub-text'} bold>
           {item.isPaid ? 'PAID' : 'NOT PAID'}
         </Text>
       </RightPart>

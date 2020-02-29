@@ -11,8 +11,8 @@ interface IAvatar {
 const Img = styled.img`
   width: 30px;
   height: 30px;
-  margin-right: ${props => props.mr},
-  margin-bottom: ${props => props.mb}
+  margin-right: ${props => props.mr};
+  margin-bottom: ${props => props.mb};
 `;
 
 export const Avatar = ({ src, mr, mb }: IAvatar) => {

@@ -4,75 +4,115 @@ import { connect } from 'react-redux';
 import { ITradeList, ITradeBuyItem } from '../reducers';
 import { Text } from '../common/Text';
 import { Button } from '../common/Button';
+import { InfoCell } from '../common/InfoCell';
+import { Avatar } from '../common/Avater';
 import styled from 'styled-components';
-import { lightGray } from '../theme';
+import { lightGray, bitGray } from '../theme';
 import { selectTradeItem } from '../actions';
+import avatar_buyer from '../imgs/avatar_buyer.png';
+import avatar_seller from '../imgs/avatar_seller.png';
 
 const Wrapper = styled.div`
   width: 300px;
-  height: 700px;
-  box-shadow: 5px 0 -5px 5px ${lightGray};
+  box-shadow: 5px 0 5px -5px ${lightGray};
   padding: 30px;
   text-align: center;
 `;
 
-const Title = styled.div`
+const Row = styled.div`
+  width: 100%;
+  display: block;
+`;
+
+const Flex = styled.div`
+  display: flex;
   width: 100%;
 `;
 
-const TradeInfo = (props: StateProps & DispatchProps) => (
+const TradeInfo = ({ tradeItem }: StateProps & DispatchProps) => (
   <Wrapper>
-    {console.log('props', props)}
-    <Title>
-      <Text>{`You are trading with ${props.buyerName}`}</Text>
+    <Row>
+      <Text>{`You are trading with ${tradeItem.buyerName}`}</Text>
       {/* hard code time here */}
       <Text type="sub-text" mb="30px">
         Started 23 minutes ago
       </Text>
       <Button
         type="submit"
+        mb="25px"
+        disabled={!tradeItem.isPaid}
         onClick={() => {
           console.log('ddd');
         }}
       >
         Release bitcoins
       </Button>
-    </Title>
+    </Row>
+    <Flex>
+      <InfoCell rb="1px" bb="1px">
+        <Avatar src={avatar_buyer} mb="2px" />
+        <Row>
+          <Text type="green-text" inline bold>
+            +{tradeItem.posRepu}
+          </Text>
+          <Text inline bold>
+            /
+          </Text>
+          <Text type="red-text" inline bold>
+            -{tradeItem.negRepu}
+          </Text>
+        </Row>
+      </InfoCell>
+      <InfoCell bb="1px">
+        <Text uppercase bold>
+          # Of Trades
+        </Text>
+        <Text>{tradeItem.trades}</Text>
+      </InfoCell>
+    </Flex>
+    <Flex>
+      <InfoCell rb="1px" bb="1px">
+        <Text uppercase bold>
+          Trade Status
+        </Text>
+        <Text type={tradeItem.isPaid ? 'green-text' : 'sub-text'} bold>
+          {tradeItem.isPaid ? 'PAID' : 'NOT PAID'}
+        </Text>
+      </InfoCell>
+      <InfoCell bb="1px">
+        <Text uppercase bold>
+          Trade Hash
+        </Text>
+        <Text type="sub-text">{tradeItem.hash}</Text>
+      </InfoCell>
+    </Flex>
+    <Flex>
+      <InfoCell rb="1px" bb="1px">
+        <Text uppercase bold>
+          Amount USD
+        </Text>
+        <Text>{tradeItem.usd}</Text>
+      </InfoCell>
+      <InfoCell bb="1px">
+        <Text uppercase bold>
+          Amount BTC
+        </Text>
+        <Text type="sub-text">{tradeItem.btc}</Text>
+      </InfoCell>
+    </Flex>
   </Wrapper>
 );
 
 interface StateProps {
-  tradeId: string;
-  buyerName: string;
-  paymentType: string;
-  value: string;
-  avatar: string;
-  isPaid: boolean;
-  isRead: boolean;
-  isActive: boolean;
+  tradeItem: ITradeBuyItem;
 }
 
-interface DispatchProps {
-  selectTradeItem: (
-    tradeId: string,
-    tradeList: Array<ITradeBuyItem>
-  ) => { type: string; payload: Array<ITradeBuyItem> };
-}
+interface DispatchProps {}
 
-const mapStateToProps = (state: ITradeBuyItem) => ({
-  tradeId: state.tradeId,
-  buyerName: state.buyerName,
-  paymentType: state.paymentType,
-  value: state.value,
-  avatar: state.avatar,
-  isPaid: state.isPaid,
-  isRead: state.isRead,
-  isActive: state.isActive
+const mapStateToProps = state => ({
+  tradeItem: state.tradeItem
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  selectTradeItem: (tradeId: string, tradeList: Array<ITradeBuyItem>) =>
-    dispatch(selectTradeItem(tradeId, tradeList))
-});
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(TradeInfo);

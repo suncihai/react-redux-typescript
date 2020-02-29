@@ -9,6 +9,7 @@ interface IButton {
   type?: string;
   mr?: string;
   mb?: string;
+  disabled?: boolean;
   onClick: () => void;
 }
 
@@ -21,23 +22,31 @@ const Wrapper = styled.button`
   border-radius: 25px;
   cursor: pointer;
   outline: none;
-  &.primary {
-    background: ${darkGray};
-  }
   &.submit {
     background: ${green};
+  }
+  &.disabled {
+    background: ${darkGray};
+    cursor: not-allowed;
   }
 `;
 
 export const Button = ({
   children,
-  type = 'primary',
+  type = 'submit',
   mr,
   mb,
+  disabled = false,
   onClick
 }: IButton) => {
   return (
-    <Wrapper mb={mb} mr={mr} className={type} onClick={onClick}>
+    <Wrapper
+      disabled={disabled}
+      mb={mb}
+      mr={mr}
+      className={_.compact([type, disabled && 'disabled']).join(' ')}
+      onClick={onClick}
+    >
       <Text type="btn-text">{children}</Text>
     </Wrapper>
   );
