@@ -7,8 +7,11 @@ const tradeItemReducer = (state = tradeItem, action): ITradeItem => {
   switch (action.type) {
     case 'SELECT_TRADE_ITEM':
       return action.payload_item;
+    case 'GET_INITIAL_ITEM':
+      return action.payload_item;
     case 'RELEASE_BTC':
       return action.payload_item;
+
     default:
       return state;
   }

@@ -1,11 +1,13 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { ITradeList, ITradeItem } from '../reducers';
+import { ITradeItem } from '../reducers';
 import TradeItem from './TradeItem';
 import styled from 'styled-components';
 import { lightGray } from '../theme';
-import { selectTradeItem } from '../actions';
+import { selectTradeItem, getInitialItem } from '../actions';
+import Cookie from 'js-cookie';
 
 const Wrapper = styled.div`
   width: 300px;
@@ -13,19 +15,25 @@ const Wrapper = styled.div`
   z-index: 1;
 `;
 
-const TradeList = (props: StateProps & DispatchProps) => (
-  <Wrapper>
-    {props.tradeList.map((ele, index) => {
-      return (
-        <TradeItem
-          onClick={() => props.selectTradeItem(ele.tradeId, props.tradeList)}
-          item={ele}
-          key={index}
-        />
-      );
-    })}
-  </Wrapper>
-);
+const TradeList = (props: StateProps & DispatchProps) => {
+  useEffect(() => {
+    props.getInitialItem(props.tradeList);
+  }, []);
+
+  return (
+    <Wrapper>
+      {props.tradeList.map((ele, index) => {
+        return (
+          <TradeItem
+            onClick={() => props.selectTradeItem(ele.tradeId, props.tradeList)}
+            item={ele}
+            key={index}
+          />
+        );
+      })}
+    </Wrapper>
+  );
+};
 
 interface StateProps {
   tradeList: Array<ITradeItem>;
@@ -40,6 +48,13 @@ interface DispatchProps {
     payload_list: Array<ITradeItem>;
     payload_item: object;
   };
+  getInitialItem: (
+    tradeList: Array<ITradeItem>
+  ) => {
+    type: string;
+    payload_list: Array<ITradeItem>;
+    payload_item: object;
+  };
 }
 
 const mapStateToProps = state => ({
@@ -48,7 +63,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   selectTradeItem: (tradeId: string, tradeList: Array<ITradeItem>) =>
-    dispatch(selectTradeItem(tradeId, tradeList))
+    dispatch(selectTradeItem(tradeId, tradeList)),
+  getInitialItem: (tradeList: Array<ITradeItem>) =>
+    dispatch(getInitialItem(tradeList))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TradeList);

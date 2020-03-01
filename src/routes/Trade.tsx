@@ -4,7 +4,6 @@ import SubNavBar from '../components/SubNavBar';
 import TradeList from '../components/TradeList';
 import TradeChat from '../components/TradeChat';
 import TradeInfo from '../components/TradeInfo';
-import HelloChild from '../components/HelloChild';
 
 const Wrapper = styled.div`
   width: 100%;

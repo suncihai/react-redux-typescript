@@ -1,7 +1,13 @@
 import { tradeList, chatMap } from '../initialData';
 import { IChatItem } from '.';
+import Cookie from 'js-cookie';
 
-const tradeId: string = tradeList.filter(ele => ele.isActive)[0].tradeId;
+let tradeId: string = '';
+if (Cookie.get('paxfulTradeItem')) {
+  tradeId = Cookie.get('paxfulTradeItem');
+} else {
+  tradeId = tradeList.filter(ele => ele.isActive)[0].tradeId;
+}
 const chatList: Array<IChatItem> = chatMap.get(tradeId);
 
 const tradeChatReducer = (state = chatList, action): Array<IChatItem> => {

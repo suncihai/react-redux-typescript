@@ -21,10 +21,6 @@ export interface State {
   router: RouterState;
 }
 
-export interface ITradeList {
-  tradeList: Array<ITradeItem>;
-}
-
 export interface ITradeItem {
   tradeId: string;
   buyerName: string;

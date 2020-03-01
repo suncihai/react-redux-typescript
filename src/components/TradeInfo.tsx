@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { ITradeList, ITradeItem } from '../reducers';
+import { ITradeItem } from '../reducers';
 import { Text } from '../common/Text';
 import { Button } from '../common/Button';
 import { InfoCell } from '../common/InfoCell';

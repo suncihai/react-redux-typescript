@@ -1,4 +1,5 @@
 import { ITradeItem, IChatItem } from '../reducers';
+import Cookie from 'js-cookie';
 
 export const selectTradeItem = (
   tradeId: string,
@@ -16,11 +17,46 @@ export const selectTradeItem = (
     if (ele.tradeId === tradeId) {
       ele.isActive = true;
       ele.isRead = true;
+      Cookie.set('paxfulTradeItem', tradeId);
       tradeItem = Object.assign({}, ele);
     }
   });
   return {
     type: 'SELECT_TRADE_ITEM',
+    payload_list: tradeList,
+    payload_item: tradeItem
+  };
+};
+
+export const getInitialItem = (
+  tradeList: Array<ITradeItem>
+): {
+  type: string;
+  payload_list: Array<ITradeItem>;
+  payload_item: object;
+} => {
+  let tradeItem = {};
+  if (Cookie.get('paxfulTradeItem')) {
+    tradeList.forEach(ele => {
+      ele.isActive = false;
+    });
+    tradeList.forEach(ele => {
+      if (ele.tradeId === Cookie.get('paxfulTradeItem')) {
+        ele.isActive = true;
+        ele.isRead = true;
+        tradeItem = Object.assign({}, ele);
+      }
+    });
+  } else {
+    tradeList.forEach(ele => {
+      if (ele.isActive) {
+        tradeItem = Object.assign({}, ele);
+        Cookie.set('paxfulTradeItem', ele.tradeId);
+      }
+    });
+  }
+  return {
+    type: 'GET_INITIAL_ITEM',
     payload_list: tradeList,
     payload_item: tradeItem
   };
