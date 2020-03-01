@@ -69,63 +69,63 @@ export const tradeList: Array<ITradeItem> = [
 
 export const chatList1: Array<IChatItem> = [
   {
-    text: 'Hi, I want to buy your BTC',
-    timestamp: 1582950609,
+    message: 'Hi, I want to buy your BTC',
+    timestamp: 1583065114000,
     isUser: false
   },
   {
-    text: 'KK, How much do u want?',
-    timestamp: 1582951452,
+    message: 'KK, How much do u want?',
+    timestamp: 1583075114000,
     isUser: true
   }
 ];
 
 export const chatList2: Array<IChatItem> = [
   {
-    text: 'hello',
-    timestamp: 1582950609,
+    message: 'hello',
+    timestamp: 1583085114000,
     isUser: false
   },
   {
-    text: `What's up?`,
-    timestamp: 1582951452,
+    message: `What's up?`,
+    timestamp: 1583090114000,
     isUser: true
   },
   {
-    text: 'Are you still selling?',
-    timestamp: 1582951553,
+    message: 'Are you still selling?',
+    timestamp: 1583091114000,
     isUser: false
   }
 ];
 
 export const chatList3: Array<IChatItem> = [
   {
-    text: 'Hi, I want to buy your BTC',
-    timestamp: 1582950609,
+    message: 'Hi, I want to buy your BTC',
+    timestamp: 1583091434000,
     isUser: false
   },
   {
-    text: 'KK, How much do u want?',
-    timestamp: 1582951452,
+    message: 'KK, How much do u want?',
+    timestamp: 1583092514000,
     isUser: true
   },
   {
-    text: 'Emmm... Let me see',
-    timestamp: 1582951553,
+    message: 'Emmm... Let me see',
+    timestamp: 1583093714000,
     isUser: false
   },
   {
-    text:
+    message:
       'Well, I wonder if you could lower down a little bit since recently BTC is going down you know? I would like to buy more if you could make price as 9880. You know I am just wondering',
-    timestamp: 1582952133,
+    timestamp: 1583094124000,
     isUser: false
   }
 ];
 
 export const chatList4: Array<IChatItem> = [
   {
-    text: 'Hey man',
-    timestamp: 1582950609,
+    message: 'Hey man',
+    timestamp: 1583067814000,
     isUser: false
   }
 ];

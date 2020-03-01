@@ -1,4 +1,4 @@
-import { ITradeItem } from '../reducers';
+import { ITradeItem, IChatItem } from '../reducers';
 
 export const selectTradeItem = (
   tradeId: string,
@@ -47,5 +47,28 @@ export const deleteTradeItem = (
     type: 'DELETE_TRADE_ITEM',
     payload_list: tradeList,
     payload_item: newTradeItem
+  };
+};
+
+export const sendMsg = (
+  tradeId: string,
+  message: string,
+  timestamp: number,
+  isUser: boolean,
+  chatMap: Map<string, Array<IChatItem>>
+): {
+  type: string;
+  payload_map: Map<string, Array<IChatItem>>;
+  payload_list: Array<IChatItem>;
+} => {
+  let chatList: Array<IChatItem> = chatMap.get(tradeId);
+  let chatItem: IChatItem = { message, timestamp, isUser };
+  chatList.push(chatItem);
+  chatMap.set(tradeId, [...chatList]);
+
+  return {
+    type: 'SEND_MESSAGE',
+    payload_map: chatMap,
+    payload_list: chatList
   };
 };

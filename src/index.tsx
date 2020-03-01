@@ -12,7 +12,7 @@ const history = createBrowserHistory();
 
 const composeEnhancer: typeof compose =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
+const store: any = createStore(
   connectRouter(history)(rootReducer),
   composeEnhancer(applyMiddleware(routerMiddleware(history)))
 );

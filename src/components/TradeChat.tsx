@@ -1,16 +1,17 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faMonument } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Text } from '../common/Text';
 import { ChatCell } from '../common/ChatCell';
 import { Input } from '../common/Input';
-import { ITradeList, ITradeItem, IChatItem } from '../reducers';
-import TradeItem from './TradeItem';
+import { ITradeItem, IChatItem } from '../reducers';
 import styled from 'styled-components';
 import { bitBlue, lightGray, tinyGray } from '../theme';
 import { deleteTradeItem } from '../actions';
+import { sendMsg } from '../actions';
 import moment from 'moment';
 
 const Wrapper = styled.div`
@@ -55,6 +56,12 @@ const SendMsgBox = styled.div`
 `;
 
 const TradeChat = (props: StateProps & DispatchProps) => {
+  const [input, setInput] = useState('');
+
+  const changeInput = e => {
+    setInput(e.target.value);
+  };
+
   return (
     <Wrapper>
       <RowTitle>
@@ -88,7 +95,7 @@ const TradeChat = (props: StateProps & DispatchProps) => {
             isUser={ele.isUser}
             time={moment(ele.timestamp).format('hh:mm:ss a')}
           >
-            {ele.text}
+            {ele.message}
           </ChatCell>
         );
       })}
@@ -97,10 +104,16 @@ const TradeChat = (props: StateProps & DispatchProps) => {
           append
           text="SEND"
           onClick={() => {
-            console.log('dddd');
+            props.sendMsg(
+              props.tradeItem.tradeId,
+              input,
+              new Date().getTime(),
+              true,
+              props.chatMap
+            );
           }}
-          onChange={() => {
-            console.log('333');
+          onChange={e => {
+            setInput(e.target.value);
           }}
         />
       </SendMsgBox>
@@ -113,6 +126,7 @@ interface StateProps {
   tradeList: Array<ITradeItem>;
   tradeChat: Array<IChatItem>;
   isBuyer: boolean;
+  chatMap: Map<string, Array<IChatItem>>;
 }
 
 interface DispatchProps {
@@ -124,18 +138,37 @@ interface DispatchProps {
     payload_list: Array<ITradeItem>;
     payload_item: object;
   };
+  sendMsg: (
+    tradeId: string,
+    message: string,
+    timestamp: number,
+    isUser: boolean,
+    chatMap: Map<string, Array<IChatItem>>
+  ) => {
+    type: string;
+    payload_map: Map<string, Array<IChatItem>>;
+    payload_list: Array<IChatItem>;
+  };
 }
 
 const mapStateToProps = state => ({
   tradeItem: state.tradeItem,
   tradeList: state.tradeList,
   tradeChat: state.tradeChat,
-  isBuyer: state.isBuyer
+  isBuyer: state.isBuyer,
+  chatMap: state.chatMap
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   deleteTradeItem: (tradeId: string, tradeList: Array<ITradeItem>) =>
-    dispatch(deleteTradeItem(tradeId, tradeList))
+    dispatch(deleteTradeItem(tradeId, tradeList)),
+  sendMsg: (
+    tradeId: string,
+    message: string,
+    timestamp: number,
+    isUser: boolean,
+    chatMap: Map<string, Array<IChatItem>>
+  ) => dispatch(sendMsg(tradeId, message, timestamp, isUser, chatMap))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TradeChat);

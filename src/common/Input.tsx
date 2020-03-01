@@ -7,7 +7,7 @@ interface IInput {
   append?: boolean;
   text?: string;
   onClick: () => void;
-  onChange: () => void;
+  onChange: (obj) => void;
 }
 
 interface IAppendBox {

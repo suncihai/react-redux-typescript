@@ -21,10 +21,17 @@ const Wrapper = styled.div`
   padding: 20px;
   border-left: 1px solid ${bitGray};
   border-bottom: 1px solid ${bitGray};
+  box-sizing: border-box;
   cursor: pointer;
   position: relative;
   &.isActive {
     background: ${bitBlue};
+    width: 310px;
+    padding-left: 10px;
+    border: 2px solid ${lightGray};
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    transition: all 0.3s ease;
   }
 `;
 
@@ -102,6 +109,4 @@ interface DispatchProps {}
 
 const mapDispatchToProps = (dispatch: Dispatch<ITradeItem>) => ({});
 
-export default connect<{}, DispatchProps, OwnProps>(mapDispatchToProps)(
-  TradeItem
-);
+export default connect(mapDispatchToProps)(TradeItem);

@@ -5,13 +5,15 @@ import isBuyerReducer from './isBuyer';
 import tradeListReducer from './tradeList';
 import tradeItemReducer from './tradeItem';
 import tradeChatReducer from './tradeChat';
+import chatMapReducer from './chatMap';
 
 const rootReducer = combineReducers({
   count: counterReducer,
   isBuyer: isBuyerReducer,
   tradeList: tradeListReducer,
   tradeItem: tradeItemReducer,
-  tradeChat: tradeChatReducer
+  tradeChat: tradeChatReducer,
+  chatMap: chatMapReducer
 });
 
 export interface State {
@@ -46,7 +48,7 @@ export interface IChat {
 
 //since it is hard code, avatar depend on if user is buyer or not instead of url
 export interface IChatItem {
-  text: string;
+  message: string;
   timestamp: number;
   isUser: boolean;
 }
