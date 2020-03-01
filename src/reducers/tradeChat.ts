@@ -8,6 +8,8 @@ const tradeChatReducer = (state = chatList, action): Array<IChatItem> => {
   switch (action.type) {
     case 'SELECT_TRADE_ITEM':
       return [...chatMap.get(action.payload_item.tradeId)];
+    case 'DELECT_TRADE_ITEM':
+      return [...chatMap.get(action.payload_item.tradeId)];
     case 'SEND_MESSAGE':
       return [...action.payload_list];
     default:

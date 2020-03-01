@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,6 +22,14 @@ const Wrapper = styled.div`
   flex-grow: 1;
   background: ${bitBlue};
   z-index: 0;
+`;
+
+const ChatContainer = styled.div`
+  height: 85%;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const RowTitle = styled.div`
@@ -49,6 +57,7 @@ const Icon = styled.div`
   }
 `;
 
+const ChatEndRef = styled.div``;
 const SendMsgBox = styled.div`
   position: absolute;
   width: calc(100% - 60px);
@@ -57,23 +66,25 @@ const SendMsgBox = styled.div`
 
 const TradeChat = (props: StateProps & DispatchProps) => {
   const [input, setInput] = useState('');
-
-  const changeInput = e => {
-    setInput(e.target.value);
-  };
-
+  const messagesEndRef = useRef(null);
   return (
     <Wrapper>
       <RowTitle>
         <Icon
           onClick={() =>
-            props.deleteTradeItem(props.tradeItem.tradeId, props.tradeList)
+            props.deleteTradeItem(
+              props.tradeItem.tradeId,
+              props.tradeList,
+              props.chatMap
+            )
           }
         >
           <FontAwesomeIcon icon={faTrashAlt} color="white" />
         </Icon>
         <Title>
-          <Text bold>{props.tradeItem.paymentType}</Text>
+          <Text type="title" bold>
+            {props.tradeItem.paymentType}
+          </Text>
           <Text inline mr="5px">
             {props.tradeItem.buyerName}
           </Text>
@@ -88,17 +99,20 @@ const TradeChat = (props: StateProps & DispatchProps) => {
           </Text>
         </Title>
       </RowTitle>
-      {props.tradeChat.map((ele, index) => {
-        return (
-          <ChatCell
-            key={index}
-            isUser={ele.isUser}
-            time={moment(ele.timestamp).format('hh:mm:ss a')}
-          >
-            {ele.message}
-          </ChatCell>
-        );
-      })}
+      <ChatContainer>
+        {props.tradeChat.map((ele, index) => {
+          return (
+            <ChatCell
+              key={index}
+              isUser={ele.isUser}
+              time={moment(ele.timestamp).format('hh:mm:ss a')}
+            >
+              {ele.message}
+            </ChatCell>
+          );
+        })}
+        <ChatEndRef ref={messagesEndRef} />
+      </ChatContainer>
       <SendMsgBox>
         <Input
           append
@@ -111,6 +125,7 @@ const TradeChat = (props: StateProps & DispatchProps) => {
               true,
               props.chatMap
             );
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
           }}
           onChange={e => {
             setInput(e.target.value);
@@ -132,11 +147,12 @@ interface StateProps {
 interface DispatchProps {
   deleteTradeItem: (
     tradeId: string,
-    tradeList: Array<ITradeItem>
+    tradeList: Array<ITradeItem>,
+    chatMap: Map<string, Array<IChatItem>>
   ) => {
     type: string;
     payload_list: Array<ITradeItem>;
-    payload_item: object;
+    payload_map: Map<string, Array<IChatItem>>;
   };
   sendMsg: (
     tradeId: string,
@@ -160,8 +176,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  deleteTradeItem: (tradeId: string, tradeList: Array<ITradeItem>) =>
-    dispatch(deleteTradeItem(tradeId, tradeList)),
+  deleteTradeItem: (
+    tradeId: string,
+    tradeList: Array<ITradeItem>,
+    chatMap: Map<string, Array<IChatItem>>
+  ) => dispatch(deleteTradeItem(tradeId, tradeList, chatMap)),
   sendMsg: (
     tradeId: string,
     message: string,

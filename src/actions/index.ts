@@ -28,25 +28,26 @@ export const selectTradeItem = (
 
 export const deleteTradeItem = (
   tradeId: string,
-  tradeList: Array<ITradeItem>
+  tradeList: Array<ITradeItem>,
+  chatMap: Map<string, Array<IChatItem>>
 ): {
   type: string;
   payload_list: Array<ITradeItem>;
-  payload_item: object;
+  payload_map: Map<string, Array<IChatItem>>;
 } => {
   let target = 0;
-  let newTradeItem = {};
   tradeList.forEach((ele, index) => {
     if (ele.tradeId === tradeId) {
       target = index;
+      let chatList: Array<IChatItem> = new Array();
+      chatMap.set(tradeId, [...chatList]);
     }
   });
   tradeList.splice(target, 1);
-  newTradeItem = Object.assign({}, tradeList[0]);
   return {
     type: 'DELETE_TRADE_ITEM',
     payload_list: tradeList,
-    payload_item: newTradeItem
+    payload_map: chatMap
   };
 };
 
@@ -70,5 +71,28 @@ export const sendMsg = (
     type: 'SEND_MESSAGE',
     payload_map: chatMap,
     payload_list: chatList
+  };
+};
+
+export const releaseBTC = (
+  tradeId: string,
+  tradeList: Array<ITradeItem>
+): {
+  type: string;
+  payload_list: Array<ITradeItem>;
+  payload_item: object;
+} => {
+  let tradeItem = {};
+  tradeList.forEach(ele => {
+    if (ele.tradeId === tradeId) {
+      ele.isReleased = true;
+      ele.trades++;
+      tradeItem = Object.assign({}, ele);
+    }
+  });
+  return {
+    type: 'RELEASE_BTC',
+    payload_list: tradeList,
+    payload_item: tradeItem
   };
 };

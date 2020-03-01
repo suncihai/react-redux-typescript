@@ -38,6 +38,7 @@ export interface ITradeItem {
   avatar: string;
   isBuy: boolean;
   isPaid: boolean;
+  isReleased: boolean;
   isRead: boolean;
   isActive: boolean;
 }

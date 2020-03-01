@@ -14,6 +14,7 @@ export const tradeList: Array<ITradeItem> = [
     avatar: 'buyer', //in real case would be a img url path
     isBuy: true,
     isPaid: true, //if buyer already paid
+    isReleased: false, //if seller released bitcoin
     isRead: false, //if this msg already read
     isActive: false //if this msg box is selected
   },
@@ -30,6 +31,7 @@ export const tradeList: Array<ITradeItem> = [
     avatar: 'buyer',
     isBuy: true,
     isPaid: false,
+    isReleased: false,
     isRead: false,
     isActive: false
   },
@@ -46,6 +48,7 @@ export const tradeList: Array<ITradeItem> = [
     avatar: 'buyer',
     isBuy: true,
     isPaid: true,
+    isReleased: false,
     isRead: true,
     isActive: true
   },
@@ -62,6 +65,7 @@ export const tradeList: Array<ITradeItem> = [
     avatar: 'buyer',
     isBuy: true,
     isPaid: false,
+    isReleased: false,
     isRead: true,
     isActive: false
   }

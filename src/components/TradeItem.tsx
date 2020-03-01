@@ -29,6 +29,7 @@ const Wrapper = styled.div`
     width: 310px;
     padding-left: 10px;
     border: 2px solid ${lightGray};
+    border-left: none;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     transition: all 0.3s ease;

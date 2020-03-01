@@ -9,6 +9,9 @@ const tradeListReducer = (state = tradeList, action): Array<ITradeItem> => {
     case 'DELETE_TRADE_ITEM':
       return [...action.payload_list];
       break;
+    case 'RELEASE_BTC':
+      return [...action.payload_list];
+      break;
   }
   return state;
 };

@@ -36,6 +36,10 @@ const Wrapper = styled.p`
     font-size: 14px;
     color: ${darkGray};
   }
+  &.title {
+    font-size: 18px;
+    color: ${darkGray};
+  }
   &.sub-text {
     font-size: 12px;
     color: ${lightGray};
